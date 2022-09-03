@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router' 
+import operationRouter from './operation'
 const manageroutes = [
    {
       path: '/login',
@@ -23,7 +24,20 @@ const manageroutes = [
       {
          path: '/operation',
          name: 'operation',
-         component: () => import('../views/operation/operation.vue')
+         component: () => import('../views/operation/operation.vue'),
+         children:[
+            //文章管理
+            {
+               path: '/article',
+               component: () => import('../views/operation/content/article.vue')
+            },
+            {
+               path: '/comment',
+               component: () => import('../views/operation/content/comment.vue')
+            }
+
+
+         ]
       }, 
       {
          path: '/property',
