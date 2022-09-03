@@ -23,7 +23,7 @@ const manageroutes = [
       {
          path: '/operation',
          name: 'operation',
-         component: () => import('../views/operation.vue')
+         component: () => import('../views/operation/operation.vue')
       }, 
       {
          path: '/property',
