@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router' 
-import operationRouter from './operation'
+// import operationRouter from './operation'
 const manageroutes = [
    {
       path: '/login',
@@ -34,7 +34,40 @@ const manageroutes = [
             {
                path: '/comment',
                component: () => import('../views/operation/content/comment.vue')
+            },
+            {
+               path: '/contract',
+               component: () => import('../views/operation/business/contract.vue')
+            },
+            {
+               path: '/information',
+               component: () => import('../views/operation/business/information.vue')
+            },
+            {
+               path: '/tenantPersonnel',
+               component: () => import('../views/operation/tenement/tenantPersonnel.vue')
+            },
+            {
+               path: '/tenementMessage',
+               component: () => import('../views/operation/tenement/tenementMessage.vue')
+            },
+            {
+               path: '/building',
+               component: () => import('../views/operation/property/building.vue')
+            },
+            {
+               path: '/resource',
+               component: () => import('../views/operation/property/resource.vue')
+            },
+            {
+               path: '/CarPayment',
+               component: () => import('../views/operation/bill/CarPayment.vue')
+            },
+            {
+               path: '/tenementBill',
+               component: () => import('../views/operation/bill/tenementBill.vue')
             }
+            
 
 
          ]
