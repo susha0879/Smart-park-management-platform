@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router' 
 // import operationRouter from './operation'
 const manageroutes = [
+<<<<<<< Updated upstream
    {
       path: '/login',
       name: 'Login',
@@ -11,6 +12,18 @@ const manageroutes = [
       name: '/',
       component: () => import('../layout/index.vue'),
       children:[
+=======
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('../views/login.vue'),
+  },
+  {
+    path: '/home',
+    name: '/home',
+    component: () => import('../layout/index.vue'),
+    children: [
+>>>>>>> Stashed changes
       {
             path: '/home',
             name: 'home',
