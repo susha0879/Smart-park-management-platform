@@ -1,5 +1,5 @@
 <template>
-  <div>内容评论管理</div>
+  <h1>内容评论管理</h1>
 </template>
 
 <script>
@@ -20,4 +20,5 @@ export default {
 
 </script>
 <style  scoped>
+
 </style>
