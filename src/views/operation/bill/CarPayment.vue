@@ -1,6 +1,8 @@
 <template>
+  <div>
     <h1>车辆缴费</h1>
-  </template>
+  </div>
+</template>
   
   <script>
   </script>

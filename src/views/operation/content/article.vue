@@ -22,20 +22,34 @@
         border="true"
       >
         <el-table-column type="selection" width="55" />
-        <el-table-column label="Date" width="120">
-          <template #default="scope">{{ scope.row.date }}</template>
+        <el-table-column label="文章标题" width="180">
+          <template #default="scope">{{ scope.row.title }}</template>
         </el-table-column>
-        <el-table-column property="name" label="name" width="120" />
-        <el-table-column property="address" label="Address" show-overflow-tooltip />
+        <el-table-column property="way" label="发布渠道" width="100" />
+        <el-table-column property="channel" label="发布频道" width="160" />
+        <el-table-column property="type" label="文章类型"  width="160"/>
+        <el-table-column property="key" label="关键词"  width="160"/>
+        <el-table-column property="people" label="发布人"  width="160"/>
+        <el-table-column property="time" label="发送时间"  width="160"/>
+        <el-table-column property="operate" label="操作" />
       </el-table>
-      <div style="margin-top: 20px">
-        <el-button @click="toggleSelection([tableData[1], tableData[2]])"
-          >全选</el-button
-        >
-        <el-button @click="toggleSelection()">清除</el-button>
+      <div class="pageChange">
+          <el-pagination
+            v-model:currentPage="currentPage4"
+            v-model:page-size="pageSize4"
+            :page-sizes="[10, 20, 30, 40]"
+            :small="small"
+            :disabled="disabled"
+            :background="background"
+            layout="total, prev, pager, next, sizes,jumper"
+            :total="400"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+          />
       </div>
+      
     </div>
-    
+
   </div>
 </template>
 
@@ -47,46 +61,88 @@
   name: string
   address: string
 }
+
+
   export default {
   data () {
     return {
       titleName:"文章管理",
+      tableName:"我麻了",
+      currentPage: 1, //默认页码为1
+      pagesize: 10, //默认一页显示10条 
+      // totalPage:Math.ceil(this.tableData.length / this.pageSize) || 1,
       tableData: [
   {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
+    title: '对于年龄，你焦虑吗？',
+    way: '小程序',
+    channel: '今日热点',
+    type:'图文',
+    key:'年龄',
+    people:'管理员',
+    time:'2020-11-2',
+    operate:'详情'
   },
   {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
+    title: '针对新引进应届大学生推出租房补贴',
+    way: '小程序',
+    channel: '今日热点',
+    type:'图文',
+    key:'年龄',
+    people:'管理员',
+    time:'2020-11-2',
+    operate:'详情'
   },
   {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
+    title: '中小微、个体户，这些扶持政策必看！',
+    way: '小程序',
+    channel: '今日热点',
+    type:'图文',
+    key:'年龄',
+    people:'管理员',
+    time:'2020-11-2',
+    operate:'详情'
   },
   {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
+    title: '冬奥餐桌上老外喜欢这道最日常的菜',
+    way: '小程序',
+    channel: '今日热点',
+    type:'图文',
+    key:'年龄',
+    people:'管理员',
+    time:'2020-11-2',
+    operate:'详情'
   },
   {
-    date: '2016-05-08',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
+    title: '冬奥会临近，疫情防控有哪些注意事项',
+    way: '小程序',
+    channel: '今日热点',
+    type:'视频',
+    key:'年龄',
+    people:'管理员',
+    time:'2020-11-2',
+    operate:'详情'
   },
   {
-    date: '2016-05-06',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
+    title: '浙江新增境外输入确诊病例2例',
+    way: '小程序',
+    channel: '今日热点',
+    type:'图文',
+    key:'年龄',
+    people:'管理员',
+    time:'2020-11-2',
+    operate:'详情'
   },
   {
-    date: '2016-05-07',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
+    title: '印度靠捡美国垃圾造出新科技',
+    way: '小程序',
+    channel: '今日热点',
+    type:'视频',
+    key:'年龄',
+    people:'管理员',
+    time:'2020-11-2',
+    operate:'详情'
   },
+
 ]
     };
   },
@@ -95,9 +151,26 @@
 
   computed: {},
 
-  mounted() {},
+  mounted() {
+    const handleSizeChange = (val: number) => {
+  console.log(`${val} items per page`)
+}
+const handleCurrentChange = (val: number) => {
+  console.log(`current page: ${val}`)
+}
+  },
+  methods: {
+    handleSizeChange: function (size) {
+//一页显示多少条
+this.pagesize = size;
+},
+handleCurrentChange: function (currentPage) {
+//页码更改方法
+this.currentPage = currentPage;
+}
 
-  methods: {}
+
+  }
 }
 const multipleTableRef = ref<InstanceType<typeof ElTable>>()
 const multipleSelection = ref<User[]>([])
@@ -113,6 +186,7 @@ const toggleSelection = (rows?: User[]) => {
 const handleSelectionChange = (val: User[]) => {
   multipleSelection.value = val
 }
+
 
 </script>
 <style scoped>
@@ -142,5 +216,12 @@ const handleSelectionChange = (val: User[]) => {
   #form{
     margin-left :10px;
     margin-right:10px; 
+    text-align: center;
+    background-color: white;
   }
+  .pageChange{
+    margin-top: 20px;
+    padding-left: 50px;
+  }
+ 
 </style>

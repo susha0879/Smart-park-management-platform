@@ -128,6 +128,7 @@ const handleClose = (key: string, keyPath: string[]) => {
 .el-main {
   margin: 0;
   padding: 0;
+  height: 800px;
   background-color: #eee;
 }
 </style>
