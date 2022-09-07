@@ -1,8 +1,12 @@
 <template>
-    <h1>租户人员</h1>
+   <div>
+      <h1>租户人员</h1>
+     <Table />
+   </div>
   </template>
   
-  <script>
+  <script setup>
+    import Table from "../../../components/operationTable.vue"
   </script>
   <style >
   </style>

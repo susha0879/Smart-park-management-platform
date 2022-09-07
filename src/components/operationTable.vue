@@ -1,7 +1,6 @@
-<!-- 文章管理 -->
 <template>
   <div>
-    <!-- 公共标题栏 -->
+       <!-- 公共标题栏 -->
     <div id="title">
       <h1>
         <span>1</span>
@@ -11,23 +10,6 @@
         <el-button type="primary">新增</el-button>
         <el-button type="warning">批量删除</el-button>
       </div>
-    </div>
-    <!-- 搜索栏 -->
-    <div id="searchBox">
-       <div class="search">
-        <div>
-          <span>文章标题</span>  
-          <el-input v-model="input" placeholder="请输入文章标题"  />
-        </div>
-        <div>
-          <span>文章类型</span>
-          <el-select v-model="select" placeholder="请选择" style="width: 115px">
-            <el-option label="Restaurant" value="1" />
-            <el-option label="Order No." value="2" />
-            <el-option label="Tel" value="3" />
-          </el-select>
-        </div>
-       </div>
     </div>
     <!-- 表格 -->
     <div id="form">
@@ -67,10 +49,11 @@
       
     </div>
 
+
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
   import { ref } from 'vue'
   import { ElTable } from 'element-plus'
   interface User {
@@ -78,7 +61,6 @@
   name: string
   address: string
 }
-  const input = ref('')
   export default {
   data () {
     return {
@@ -204,9 +186,10 @@ const handleSelectionChange = (val: User[]) => {
 }
 
 
+
 </script>
 <style scoped>
-  #title{
+    #title{
     margin: 10px;
     background-color: white;
     height: 60px;
@@ -228,16 +211,6 @@ const handleSelectionChange = (val: User[]) => {
   }
   #title div{
     margin-right: 30px;
-  }
-  #searchBox{
-    height: 100px;
-    background-color: white ;
-    margin-left: 10px;
-    margin-right: 10px;
-  }
-  .search{
-    display: flex;
-    justify-content: space-around;
   }
   #form{
     margin-left :10px;

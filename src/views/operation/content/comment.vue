@@ -1,23 +1,13 @@
 <template>
-  <h1>内容评论管理</h1>
+   <div>
+     <Table />
+   </div>
 </template>
 
-<script>
-export default {
-  data () {
-    return {
-    };
-  },
+<script setup>
 
-  components: {},
-
-  computed: {},
-
-  mounted() {},
-
-  methods: {}
-}
-
+      import Table from "../../../components/operationTable.vue"
+      
 </script>
 <style  scoped>
 

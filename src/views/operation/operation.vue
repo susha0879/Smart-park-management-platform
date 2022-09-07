@@ -21,7 +21,10 @@
             v-for="item in menuData"
             :key="item.id">
             <template #title>
-              <el-icon><Reading /></el-icon>
+              <el-icon>
+                <Reading>
+                </Reading>
+              </el-icon>
               <span>{{ item.authName }}</span>
             </template>
               <el-menu-item 
@@ -58,6 +61,7 @@ export default{
     {
       id: 1,
       authName: "运营总览",
+      iconName:"Reading"
     },
     {
       id: 2,
