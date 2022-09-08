@@ -1,7 +1,8 @@
 <template>
-   <div>
+   <div >
       <h1>合同签订</h1>
-     <Table />
+      
+      <Table></Table>
    </div>
   </template>
   

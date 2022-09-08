@@ -8,26 +8,45 @@
         &nbsp; &nbsp; {{titleName}}
       </h1>
       <div>
-        <el-button type="primary">新增</el-button>
+        <el-button type="primary" @click="addUser">新增</el-button>
         <el-button type="warning">批量删除</el-button>
       </div>
     </div>
+    <!-- 弹窗 -->
+    <el-dialog v-model="dialogFormVisible" title="文章内容新增" width="80%" top="8vh" class="popUp">
+       <template #footer>
+        <el-button type="primary" @click="addOk">确定</el-button>
+        <el-button @click="addCancel">取消</el-button>
+       </template>
+    </el-dialog>
     <!-- 搜索栏 -->
     <div id="searchBox">
-       <div class="search">
-        <div>
-          <span>文章标题</span>  
-          <el-input v-model="input" placeholder="请输入文章标题"  />
-        </div>
-        <div>
-          <span>文章类型</span>
-          <el-select v-model="select" placeholder="请选择" style="width: 115px">
-            <el-option label="Restaurant" value="1" />
-            <el-option label="Order No." value="2" />
-            <el-option label="Tel" value="3" />
-          </el-select>
-        </div>
-       </div>
+      <el-row :gutter="20">
+        <el-col :span="10"><div class="grid-content ep-bg-purple" />
+          <div class="inputBox">
+            <span>文章标题:</span>
+            <el-input v-model="input" placeholder="请输入文章标题" size="large" class="input">
+            </el-input>
+          </div>
+        </el-col>
+        <el-col :span="6"><div class="grid-content ep-bg-purple" />
+          <div class="selectBox">
+          <span>文章类型:</span>
+            <el-select v-model="select" placeholder="请选择" style="width: 115px">
+              <el-option label="图文" value="1" />
+              <el-option label="视频" value="2" />
+            </el-select>
+          </div>
+        </el-col>
+        <el-col :span="8"><div class="grid-content ep-bg-purple " />
+          <div class="buttonBox">
+            <el-button type="success">查询</el-button>
+            <el-button>重置</el-button>
+          </div>
+        </el-col>
+      </el-row>
+        
+
     </div>
     <!-- 表格 -->
     <div id="form">
@@ -47,8 +66,11 @@
         <el-table-column property="type" label="文章类型"  width="160"/>
         <el-table-column property="key" label="关键词"  width="160"/>
         <el-table-column property="people" label="发布人"  width="160"/>
-        <el-table-column property="time" label="发送时间"  width="160"/>
-        <el-table-column property="operate" label="操作" />
+        <el-table-column property="time" label="发送时间"  width="140"/>
+        <el-table-column property="operate" label="操作" >
+          <el-button text bg>详情</el-button>
+          <el-button text bg>删除</el-button>
+        </el-table-column>
       </el-table>
       <div class="pageChange">
           <el-pagination
@@ -82,11 +104,22 @@
   export default {
   data () {
     return {
+      dialogFormVisible:false,
       titleName:"文章管理",
       tableName:"我麻了",
       currentPage: 1, //默认页码为1
       pagesize: 10, //默认一页显示10条 
       // totalPage:Math.ceil(this.tableData.length / this.pageSize) || 1,
+      formData:{
+        acTitle:"",
+        acWay:"",
+        acChannel:"",
+        acType:"",
+        acKey:"",
+        acPeople:"",
+        acTime:"",
+        acSynopsis:""
+      },
       tableData: [
   {
     title: '对于年龄，你焦虑吗？',
@@ -183,8 +216,16 @@ this.pagesize = size;
 handleCurrentChange: function (currentPage) {
 //页码更改方法
 this.currentPage = currentPage;
-}
-
+},
+    addUser(){
+      this.dialogFormVisible=true
+    },
+    addOk(){
+      this.dialogFormVisible=false
+    },
+    addCancel(){
+      this.dialogFormVisible=false
+    }
 
   }
 }
@@ -231,14 +272,12 @@ const handleSelectionChange = (val: User[]) => {
   }
   #searchBox{
     height: 100px;
+    line-height: 100px;
     background-color: white ;
     margin-left: 10px;
     margin-right: 10px;
   }
-  .search{
-    display: flex;
-    justify-content: space-around;
-  }
+ 
   #form{
     margin-left :10px;
     margin-right:10px; 
@@ -248,5 +287,23 @@ const handleSelectionChange = (val: User[]) => {
   .pageChange{
     margin-top: 20px;
     padding-left: 50px;
+  }
+  .inputBox{
+    text-align: center;
+  }
+  .inputBox span{
+    margin-right: 20px;
+  }
+  .input{
+    width: 300px;
+  }
+  .selectBox span{
+    margin-right: 20px;
+  }
+  .buttonBox{
+    text-align: center;
+  }
+  .popUp{
+    width: 1200px;
   }
 </style>

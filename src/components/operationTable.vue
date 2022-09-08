@@ -1,6 +1,6 @@
 <template>
   <div>
-       <!-- 公共标题栏 -->
+    <!-- 公共标题栏 -->
     <div id="title">
       <h1>
         <span>1</span>
@@ -10,6 +10,35 @@
         <el-button type="primary">新增</el-button>
         <el-button type="warning">批量删除</el-button>
       </div>
+    </div>
+    <!-- 搜索栏 -->
+    <div id="searchBox">
+      <el-row :gutter="20">
+        <el-col :span="10"><div class="grid-content ep-bg-purple" />
+          <div class="inputBox">
+            <span>文章标题:</span>
+            <el-input v-model="input" placeholder="请输入文章标题" size="large" class="input">
+            </el-input>
+          </div>
+        </el-col>
+        <el-col :span="6"><div class="grid-content ep-bg-purple" />
+          <div class="selectBox">
+          <span>文章类型:</span>
+            <el-select v-model="select" placeholder="请选择" style="width: 115px">
+              <el-option label="图文" value="1" />
+              <el-option label="视频" value="2" />
+            </el-select>
+          </div>
+        </el-col>
+        <el-col :span="8"><div class="grid-content ep-bg-purple " />
+          <div class="buttonBox">
+            <el-button type="success">查询</el-button>
+            <el-button>重置</el-button>
+          </div>
+        </el-col>
+      </el-row>
+        
+
     </div>
     <!-- 表格 -->
     <div id="form">
@@ -49,11 +78,10 @@
       
     </div>
 
-
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" >
   import { ref } from 'vue'
   import { ElTable } from 'element-plus'
   interface User {
@@ -61,6 +89,7 @@
   name: string
   address: string
 }
+  const input = ref('')
   export default {
   data () {
     return {
@@ -186,10 +215,9 @@ const handleSelectionChange = (val: User[]) => {
 }
 
 
-
 </script>
 <style scoped>
-    #title{
+  #title{
     margin: 10px;
     background-color: white;
     height: 60px;
@@ -212,6 +240,14 @@ const handleSelectionChange = (val: User[]) => {
   #title div{
     margin-right: 30px;
   }
+  #searchBox{
+    height: 100px;
+    line-height: 100px;
+    background-color: white ;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+ 
   #form{
     margin-left :10px;
     margin-right:10px; 
@@ -221,5 +257,20 @@ const handleSelectionChange = (val: User[]) => {
   .pageChange{
     margin-top: 20px;
     padding-left: 50px;
+  }
+  .inputBox{
+    text-align: center;
+  }
+  .inputBox span{
+    margin-right: 20px;
+  }
+  .input{
+    width: 300px;
+  }
+  .selectBox span{
+    margin-right: 20px;
+  }
+  .buttonBox{
+    text-align: center;
   }
 </style>
