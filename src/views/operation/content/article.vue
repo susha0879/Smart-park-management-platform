@@ -25,7 +25,8 @@
         <el-col :span="10"><div class="grid-content ep-bg-purple" />
           <div class="inputBox">
             <span>文章标题:</span>
-            <el-input v-model="input" placeholder="请输入文章标题" size="large" class="input">
+            <el-input v-model="inputContent" placeholder="请输入文章标题" size="large" class="input"
+            prefix-icon="el-icon-search">
             </el-input>
           </div>
         </el-col>
@@ -40,7 +41,7 @@
         </el-col>
         <el-col :span="8"><div class="grid-content ep-bg-purple " />
           <div class="buttonBox">
-            <el-button type="success">查询</el-button>
+            <el-button slot="append" type="success" @click="searchput">查询</el-button>
             <el-button>重置</el-button>
           </div>
         </el-col>
@@ -52,7 +53,7 @@
     <div id="form">
       <el-table
         ref="multipleTableRef"
-        :data="tableData"
+        :data="tables[0].slice((currentPage - 1) * pageSize, currentPage*pageSize)"
         style="width: 100%"
         @selection-change="handleSelectionChange"
         border="true"
@@ -72,23 +73,22 @@
           <el-button text bg>删除</el-button>
         </el-table-column>
       </el-table>
+
+      <!-- 分页 -->
       <div class="pageChange">
           <el-pagination
-            :currentPage="currentPage4"
-            :page-size="pageSize4"
-            :page-sizes="[10, 20, 30, 40]"
-            :small="small"
-            :disabled="disabled"
-            :background="background"
-            layout="total, prev, pager, next, sizes,jumper"
-            :total="400"
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
+            :current-page="currentPage"
+            :page-size="pageSize"
+            :small="small"
+            background="true"
+            layout="prev, pager, next"
+            :total="count"
+
           />
       </div>
-      
     </div>
-
   </div>
 </template>
 
@@ -100,15 +100,17 @@
   name: string
   address: string
 }
-  const input = ref('')
+
   export default {
   data () {
     return {
       dialogFormVisible:false,
       titleName:"文章管理",
       tableName:"我麻了",
-      currentPage: 1, //默认页码为1
-      pagesize: 10, //默认一页显示10条 
+      currentPage: 1,
+      pageSize: 4,
+      searchContent:'',
+      inputContent:'',
       // totalPage:Math.ceil(this.tableData.length / this.pageSize) || 1,
       formData:{
         acTitle:"",
@@ -198,25 +200,30 @@
 
   components: {},
 
-  computed: {},
-
-  mounted() {
-    const handleSizeChange = (val: number) => {
-  console.log(`${val} items per page`)
-}
-const handleCurrentChange = (val: number) => {
-  console.log(`current page: ${val}`)
-}
+  computed: {
+    tables() {
+              const search = this.searchContent;
+           	  if(this.inputContent==''){
+           		this.searchContent=''
+           		this.currentPage=1
+           	  return [this. tableData,this.count=this. tableData.length];
+           	  }
+                 if (search!=='') {
+                   return [this. tableData.filter((dataNews) => {
+                     return Object.keys(dataNews).some((key) => {
+                       return String(dataNews[key]).toLowerCase().indexOf(search) > -1;
+                     });
+                   }),
+           				this.count = this. tableData.filter((dataNews) => {
+                     return Object.keys(dataNews).some((key) => {
+                       return String(dataNews[key]).toLowerCase().indexOf(search) > -1;
+                     });
+                   }).length];
+                 }
+                 return [this. tableData,this.count=this. tableData.length];
+           	}
   },
   methods: {
-    handleSizeChange: function (size) {
-//一页显示多少条
-this.pagesize = size;
-},
-handleCurrentChange: function (currentPage) {
-//页码更改方法
-this.currentPage = currentPage;
-},
     addUser(){
       this.dialogFormVisible=true
     },
@@ -225,7 +232,17 @@ this.currentPage = currentPage;
     },
     addCancel(){
       this.dialogFormVisible=false
-    }
+    },
+    handleSizeChange(val){
+		  this.pageSize=val;
+		},
+		handleCurrentChange(val){
+		  this.currentPage=val;
+    },
+    searchput(){
+      this.searchContent=this.inputContent
+      console.log(this.searchContent)
+    } 
 
   }
 }
@@ -240,9 +257,7 @@ const toggleSelection = (rows?: User[]) => {
     multipleTableRef.value!.clearSelection()
   }
 }
-const handleSelectionChange = (val: User[]) => {
-  multipleSelection.value = val
-}
+
 
 
 </script>
@@ -285,8 +300,10 @@ const handleSelectionChange = (val: User[]) => {
     background-color: white;
   }
   .pageChange{
-    margin-top: 20px;
-    padding-left: 50px;
+    margin-top: 40px;
+    padding-left: 550px;
+    height: 200px;
+
   }
   .inputBox{
     text-align: center;
