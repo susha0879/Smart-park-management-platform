@@ -274,7 +274,10 @@
     </script>
     <style scoped>
       #title{
-        margin: 10px;
+        margin-left:20px;
+        margin-right: 15px;
+        margin-top:20px;
+        margin-bottom: 10px;
         background-color: white;
         height: 60px;
         line-height: 60px;
@@ -300,13 +303,13 @@
         height: 100px;
         line-height: 100px;
         background-color: white ;
-        margin-left: 10px;
-        margin-right: 10px;
+        margin-left: 20px;
+        margin-right: 15px;
       }
      
       #form{
-        margin-left :10px;
-        margin-right:10px; 
+        margin-left :20px;
+        margin-right:15px; 
         text-align: center;
         background-color: white;
       }

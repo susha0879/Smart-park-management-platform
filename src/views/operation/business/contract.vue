@@ -295,65 +295,68 @@
  
  </script>
  <style scoped>
-   #title{
-     margin: 10px;
-     background-color: white;
-     height: 60px;
-     line-height: 60px;
-     display: flex;
-     justify-content: space-between;
-   }
-   #title h1{
-     margin-left:45px;
-     display: inline-block;
-   }
-   #title h1 span{
-     display: inline-block;
-     width: 10px;
-     height: 30px;
-     color: #5e80ea;
-     line-height: 30px;
-     background-color: #5e80ea;
-   }
-   #title div{
-     margin-right: 30px;
-   }
-   #searchBox{
-     height: 100px;
-     line-height: 100px;
-     background-color: white ;
-     margin-left: 10px;
-     margin-right: 10px;
-   }
-  
-   #form{
-     margin-left :10px;
-     margin-right:10px; 
-     text-align: center;
-     background-color: white;
-   }
-   .pageChange{
-     margin-top: 40px;
-     padding-left: 550px;
-     height: 200px;
+  #title{
+    margin-left:20px;
+    margin-right: 15px;
+    margin-top:20px;
+    margin-bottom: 10px;
+    background-color: white;
+    height: 60px;
+    line-height: 60px;
+    display: flex;
+    justify-content: space-between;
+  }
+  #title h1{
+    margin-left:45px;
+    display: inline-block;
+  }
+  #title h1 span{
+    display: inline-block;
+    width: 10px;
+    height: 30px;
+    color: #5e80ea;
+    line-height: 30px;
+    background-color: #5e80ea;
+  }
+  #title div{
+    margin-right: 30px;
+  }
+  #searchBox{
+    height: 100px;
+    line-height: 100px;
+    background-color: white ;
+    margin-left: 20px;
+    margin-right: 15px;
+  }
  
-   }
-   .inputBox{
-     text-align: center;
-   }
-   .inputBox span{
-     margin-right: 20px;
-   }
-   .input{
-     width: 300px;
-   }
-   .selectBox span{
-     margin-right: 20px;
-   }
-   .buttonBox{
-     text-align: center;
-   }
-   .popUp{
-     width: 1200px;
-   }
- </style>
+  #form{
+    margin-left :20px;
+    margin-right:15px; 
+    text-align: center;
+    background-color: white;
+  }
+  .pageChange{
+    margin-top: 40px;
+    padding-left: 550px;
+    height: 200px;
+
+  }
+  .inputBox{
+    text-align: center;
+  }
+  .inputBox span{
+    margin-right: 20px;
+  }
+  .input{
+    width: 300px;
+  }
+  .selectBox span{
+    margin-right: 20px;
+  }
+  .buttonBox{
+    text-align: center;
+  }
+  .popUp{
+    width: 1200px;
+  }
+</style>
