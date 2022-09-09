@@ -13,8 +13,14 @@
       </div>
     </div>
     <!-- 弹窗 -->
-    <el-dialog v-model="dialogFormVisible" title="文章内容新增" width="80%" top="8vh" class="popUp">
-       <template #footer>
+    <el-dialog v-model="dialogFormVisible" 
+               title="文章新增" width="80%" 
+               top="8vh" class="popUp"
+               center 
+    >
+      
+      
+      <template #footer>
         <el-button type="primary" @click="addOk">确定</el-button>
         <el-button @click="addCancel">取消</el-button>
        </template>
@@ -42,7 +48,7 @@
         <el-col :span="8"><div class="grid-content ep-bg-purple " />
           <div class="buttonBox">
             <el-button slot="append" type="success" @click="searchput">查询</el-button>
-            <el-button>重置</el-button>
+            <el-button @click="reStart">重置</el-button>
           </div>
         </el-col>
       </el-row>
@@ -59,14 +65,14 @@
         border="true"
       >
         <el-table-column type="selection" width="55" />
-        <el-table-column label="文章标题" width="180">
+        <el-table-column label="文章标题" width="260">
           <template #default="scope">{{ scope.row.title }}</template>
         </el-table-column>
         <el-table-column property="way" label="发布渠道" width="100" />
-        <el-table-column property="channel" label="发布频道" width="160" />
-        <el-table-column property="type" label="文章类型"  width="160"/>
-        <el-table-column property="key" label="关键词"  width="160"/>
-        <el-table-column property="people" label="发布人"  width="160"/>
+        <el-table-column property="channel" label="发布频道" width="120" />
+        <el-table-column property="type" label="文章类型"  width="120"/>
+        <el-table-column property="key" label="关键词"  width="120"/>
+        <el-table-column property="people" label="发布人"  width="120"/>
         <el-table-column property="time" label="发送时间"  width="140"/>
         <el-table-column property="operate" label="操作" >
           <el-button text bg>详情</el-button>
@@ -108,7 +114,7 @@
       titleName:"文章管理",
       tableName:"我麻了",
       currentPage: 1,
-      pageSize: 4,
+      pageSize: 5,
       searchContent:'',
       inputContent:'',
       // totalPage:Math.ceil(this.tableData.length / this.pageSize) || 1,
@@ -124,6 +130,7 @@
       },
       tableData: [
   {
+    id:'1',
     title: '对于年龄，你焦虑吗？',
     way: '小程序',
     channel: '今日热点',
@@ -134,6 +141,7 @@
     operate:'详情'
   },
   {
+    id:'2',
     title: '针对新引进应届大学生推出租房补贴',
     way: '小程序',
     channel: '今日热点',
@@ -144,6 +152,7 @@
     operate:'详情'
   },
   {
+    id:'3',
     title: '中小微、个体户，这些扶持政策必看！',
     way: '小程序',
     channel: '今日热点',
@@ -154,6 +163,7 @@
     operate:'详情'
   },
   {
+    id:'4',
     title: '冬奥餐桌上老外喜欢这道最日常的菜',
     way: '小程序',
     channel: '今日热点',
@@ -164,6 +174,7 @@
     operate:'详情'
   },
   {
+    id:'5',
     title: '冬奥会临近，疫情防控有哪些注意事项',
     way: '小程序',
     channel: '今日热点',
@@ -174,6 +185,7 @@
     operate:'详情'
   },
   {
+    id:'6',
     title: '浙江新增境外输入确诊病例2例',
     way: '小程序',
     channel: '今日热点',
@@ -184,6 +196,7 @@
     operate:'详情'
   },
   {
+    id:'7',
     title: '印度靠捡美国垃圾造出新科技',
     way: '小程序',
     channel: '今日热点',
@@ -242,7 +255,10 @@
     searchput(){
       this.searchContent=this.inputContent
       console.log(this.searchContent)
-    } 
+    },
+    reStart(){
+      this.inputContent=''
+     }
 
   }
 }

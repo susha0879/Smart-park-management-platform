@@ -18,12 +18,11 @@
         >
         <el-sub-menu 
             :index="item.id.toString()"
-            v-for="item in menuData"
+            v-for="(item, index) in menuData"
             :key="item.id">
             <template #title>
               <el-icon>
-                <Reading>
-                </Reading>
+                <component :is="iconList[index]"></component>
               </el-icon>
               <span>{{ item.authName }}</span>
             </template>
@@ -45,7 +44,7 @@
     </el-container>
   </div>
 </template>
-<script lang="ts">
+<script lang="ts" >
   import {
   Document,
   Menu as IconMenu,
@@ -53,6 +52,7 @@
   Setting,
 } from '@element-plus/icons-vue'
 import { reactive } from "@vue/reactivity";
+
 // 页面左侧菜单数据
 export default{
   name:"operation",
@@ -104,8 +104,17 @@ export default{
       ],
     },
     ]);
+    const iconList = reactive([
+      "HomeFilled",
+      "Reading", 
+      "Briefcase",
+      "Avatar",
+      "OfficeBuilding",
+      "DocumentCopy"
+    ]);
     return{
-      menuData
+      menuData,
+      iconList
     }
   }
 }
