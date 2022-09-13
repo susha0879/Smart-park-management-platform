@@ -1,3 +1,6 @@
+ 
+// import operationRouter from './operation'
+
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 // 引入物业管理相关的路由页面
@@ -29,7 +32,59 @@ const manageroutes = [
             {
                 path: '/operation',
                 name: 'operation',
-                component: () => import('../views/operation.vue'),
+                component: () => import('../views/operation/operation.vue'),
+                children:[
+                  //文章管理
+                  {
+                     path: '/article',
+                     component: () => import('../views/operation/content/article.vue')
+                  },
+                  {
+                     path: '/comment',
+                     component: () => import('../views/operation/content/comment.vue')
+                  },
+                  {
+                     path: '/contract',
+                     component: () => import('../views/operation/business/contract.vue')
+                  },
+                  {
+                     path: '/information',
+                     component: () => import('../views/operation/business/information.vue')
+                  },
+                  {
+                     path: '/tenantPersonnel',
+                     component: () => import('../views/operation/tenement/tenantPersonnel.vue')
+                  },
+                  {
+                     path: '/tenementMessage',
+                     component: () => import('../views/operation/tenement/tenementMessage.vue')
+                  },
+                  {
+                     path: '/building',
+                     component: () => import('../views/operation/property/building.vue')
+                  },
+                  {
+                     path: '/resource',
+                     component: () => import('../views/operation/property/resource.vue')
+                  },
+                  {
+                     path: '/CarPayment',
+                     component: () => import('../views/operation/bill/CarPayment.vue')
+                  },
+                  {
+                     path: '/tenementBill',
+                     component: () => import('../views/operation/bill/tenementBill.vue')
+                  },
+                  {
+                     path: '/articleAdd',
+                     component: () => import('../views/operation/content/articleAdd.vue')
+                  },
+                  {
+                     path: '/over',
+                     component: () => import('../views/operation/overview/operationall.vue')
+                  },
+      
+               ]
             },
 
             {
