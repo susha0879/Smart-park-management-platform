@@ -23,7 +23,7 @@
                  <el-icon>
                    <HomeFilled />
                  </el-icon>
-                 <span>物业总览 </span>
+                 <span>运营总览 </span>
               </router-link>
             </template>
           
