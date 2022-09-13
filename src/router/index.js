@@ -32,6 +32,7 @@ const manageroutes = [
             {
                 path: '/operation',
                 name: 'operation',
+                redirect: '/over',
                 component: () => import('../views/operation/operation.vue'),
                 children:[
                   //文章管理
