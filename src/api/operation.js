@@ -1,5 +1,5 @@
 import request from './request.js'
-
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~文章相关接口~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //获取文章的接口
 export const getArticle = (num) => {
     return request({
@@ -24,3 +24,15 @@ export const cancelArticle = (num) => {
     params:num
   })
 }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~文章相关接口结束~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~租户管理相关接口~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+//获取文章的接口
+export const getTenantPerson = (num) => {
+  return request({
+    url: '/tenant/queryByPage',
+    method: 'post',
+    params:num
+  })
+}                         

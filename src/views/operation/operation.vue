@@ -16,6 +16,18 @@
           unique-opened
           router
         >
+        <el-menu-item>
+          
+            <template #title>
+              <router-link to='/over'>
+                 <el-icon>
+                   <HomeFilled />
+                 </el-icon>
+                 <span>物业总览 </span>
+              </router-link>
+            </template>
+          
+          </el-menu-item>
         <el-sub-menu 
             :index="item.id.toString()"
             v-for="(item, index) in menuData"
@@ -59,11 +71,6 @@ export default{
   setup(){
       const menuData = reactive([
     {
-      id: 1,
-      authName: "运营总览",
-      iconName:"Reading"
-    },
-    {
       id: 2,
       authName: "内容管理",
       children: [
@@ -105,7 +112,6 @@ export default{
     },
     ]);
     const iconList = reactive([
-      "HomeFilled",
       "Reading", 
       "Briefcase",
       "Avatar",

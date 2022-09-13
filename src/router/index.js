@@ -77,7 +77,12 @@ const manageroutes = [
             {
                path: '/articleAdd',
                component: () => import('../views/operation/content/articleAdd.vue')
-             },
+            },
+            {
+               path: '/over',
+               component: () => import('../views/operation/overview/operationall.vue')
+            },
+
          ]
       }, 
       {

@@ -8,23 +8,18 @@
         &nbsp; &nbsp; {{titleName}}
       </h1>
       <div>
-        <el-button type="primary" @click="addUser">新增</el-button>
-        <el-button type="warning">批量删除</el-button>
+        <router-link to='/articleAdd'>
+          <el-button type="primary">新增</el-button>
+        </router-link>
+        <el-button type="warning" id="delateBtn">批量删除</el-button>
       </div>
     </div>
-    <!-- 弹窗 -->
-    <el-dialog v-model="dialogFormVisible" title="文章内容新增" width="80%" top="8vh" class="popUp">
-       <template #footer>
-        <el-button type="primary" @click="addOk">确定</el-button>
-        <el-button @click="addCancel">取消</el-button>
-       </template>
-    </el-dialog>
     <!-- 搜索栏 -->
     <div id="searchBox">
       <el-row :gutter="20">
         <el-col :span="10"><div class="grid-content ep-bg-purple" />
           <div class="inputBox">
-            <span>人员名称:</span>
+            <span>文章标题:</span>
             <el-input v-model="inputContent" placeholder="请输入文章标题" size="large" class="input"
             prefix-icon="el-icon-search">
             </el-input>
@@ -32,11 +27,10 @@
         </el-col>
         <el-col :span="6"><div class="grid-content ep-bg-purple" />
           <div class="selectBox">
-          <span>所属楼宇:</span>
+          <span>文章类型:</span>
             <el-select v-model="select" placeholder="请选择" style="width: 115px">
-              <el-option label="A1幢" value="1" />
-              <el-option label="B2幢" value="2" />
-              <el-option label="C2幢" value="3" />
+              <el-option label="图文" value="1" />
+              <el-option label="视频" value="2" />
             </el-select>
           </div>
         </el-col>
@@ -60,21 +54,22 @@
         border="true"
       >
         <el-table-column type="selection" width="55" />
-        <el-table-column label="人员姓名" width="120">
-          <template #default="scope">{{ scope.row.principal }}</template>
+        <el-table-column label="人员姓名" width="200">
+          <template #default="scope">{{ scope.row.tenantLeader }}</template>
         </el-table-column>
-        <el-table-column property="tel" label="联系方式" width="120" />
-        <el-table-column property="position" label="人员职位" width="120" />
-        <el-table-column property="companyName" label="租户名称"  width="260"/>
-        <el-table-column property="building" label="所属楼宇"  width="120"/>
-        <el-table-column property="room" label="房间名称"  width="120"/>
-        <el-table-column property="registerTime" label="注册时间"  width="140"/>
+        <el-table-column property="tenantTel" label="联系方式" width="180" />
+        <el-table-column property="tenantLogo" label="人员职位" width="120" />
+        <el-table-column property="tenantScale" label="租户名称"  width="110"/>
+        <el-table-column property="tenantBuilding" label="所属楼宇"  width="110"/>
+        <el-table-column property="tenantRoomId" label="房间号"  width="120"/>
+        <el-table-column property="tenantRegisteredTime" label="注册时间"  width="140"/>
         <el-table-column property="operate" label="操作" >
-          <el-button text bg>详情</el-button>
-          <el-button text bg>删除</el-button>
+          <template #default="scope">
+            <el-button text bg >详情</el-button>
+            <el-button text bg @click="delate( scope.row)">删除</el-button>
+          </template>
         </el-table-column>
       </el-table>
-
       <!-- 分页 -->
       <div class="pageChange">
           <el-pagination
@@ -94,14 +89,16 @@
 </template>
 
 <script lang="ts" >
-  import { ref } from 'vue'
+  import { ref,onMounted, reactive } from 'vue'
   import { ElTable } from 'element-plus'
+  import { getTenantPerson ,cancelArticle } from "../../../api/operation.js"
+  import { useRouter } from "vue-router";
+  const $router = useRouter();
   interface User {
   date: string
   name: string
   address: string
 }
-
   export default {
   data () {
     return {
@@ -112,157 +109,72 @@
       pageSize: 6,
       searchContent:'',
       inputContent:'',
-      // totalPage:Math.ceil(this.tableData.length / this.pageSize) || 1,
-      formData:{
-        acTitle:"",
-        acWay:"",
-        acChannel:"",
-        acType:"",
-        acKey:"",
-        acPeople:"",
-        acTime:"",
-        acSynopsis:""
-      },
-      tableData: [
-  {
-    id:'1',
-    companyName: '杭州久碳科技有限公司',
-    building: 'C2幢',
-    room: '206',
-    type:'续签',
-    state:'生效中',
-    startTime:'2020-05-17',
-    endTime:'2022-01-23',
-    operate:'详情',
-    principal:'张旭',
-    tel:'18767256412',
-    registerTime:'2019-01-01',
-    position:"负责人",
-  },
-  {
-    id:'2',
-    companyName: '杭州麟云科技有限公司',
-    building: 'A1幢',
-    room: '308',
-    type:'新签',
-    state:'生效中',
-    startTime:'2020-05-17',
-    endTime:'2022-01-23',
-    operate:'详情',
-    principal:'李君虞',
-    tel:'13988445628',
-    registerTime:'2019-01-01',
-    position:"负责人",
-  },
-  {
-    id:'3',
-    companyName: '杭州数溪科技有限公司',
-    building: 'B2幢',
-    room: '507',
-    type:'续签',
-    state:'生效中',
-    startTime:'2020-05-17',
-    endTime:'2022-01-23',
-    operate:'详情',
-    principal:'李菲菲',
-    tel:'15924916412',
-    registerTime:'2019-01-01',
-    position:"负责人",
-  },
-  {
-    id:'4',
-    companyName: '南京可达鸭娱乐有限公司',
-    building: 'B2幢',
-    room: '801',
-    type:'续签',
-    state:'到期',
-    startTime:'2020-05-17',
-    endTime:'2022-01-23',
-    operate:'详情',
-    principal:'张倩倩',
-    tel:'18767256411',
-    registerTime:'2019-01-01',
-    position:"负责人",
-  },
-  { 
-    id:'5',
-    companyName: '杭州起梦科技有限公司',
-    building: 'B2幢',
-    room: '1201',
-    type:'续签',
-    state:'退租',
-    startTime:'2020-05-17',
-    endTime:'2022-01-23',
-    operate:'详情',
-    principal:'陆灵玉',
-    tel:'18767256412',
-    registerTime:'2019-01-01',
-    position:"普通员工",
-  },
-  {
-    id:'6',
-    companyName: '杭州氧屋东西科技有限公司',
-    building: 'A1幢',
-    room: '1405',
-    type:'续签',
-    state:'生效中',
-    startTime:'2020-05-17',
-    endTime:'2022-01-23',
-    operate:'详情',
-    principal:'张旭',
-    tel:'18767256412',
-    registerTime:'2019-01-01',
-    position:"负责人",
-  },
-  {
-    id:'7',
-    companyName: '喵兜兜（杭州）科技有限公司',
-    building: 'C2幢',
-    room: '601',
-    type:'续签',
-    state:'生效中',
-    startTime:'2020-05-17',
-    endTime:'2022-01-23',
-    operate:'详情',
-    principal:'张旭',
-    tel:'18767256412',
-    registerTime:'2019-01-01',
-    position:"普通员工",
-  },
-
-]
+      selMsg:[],
+      cancelParm:{
+        title:''
+      }
     };
   },
+  setup(){
+// 访客列表数据
+const tableData1 = reactive([])
+// 访客列表总数
+let count1 = 0
 
+// 获取访客需要的参数
+let getVisitorParms = {
+  page: '1',   // 获取第几页的数据
+  size: '20'   // 获取几条数据
+}
+
+onMounted(() => {
+  // 调用获取访客的函数
+  getArticleData()
+})
+// 获取访客的异步函数
+async function getArticleData() {
+  // 发送请求 接受请求回来的数据 并且重命名为 res
+  const { data: res } = await getTenantPerson(getVisitorParms)
+  // 返回的数据展开 push到数组中
+  tableData1.push(...res.data)
+  // 总数重新赋值
+  count1 = res.count
+  console.log(tableData1);
+  
+}
+  return{
+    tableData1
+  }
+  },
   components: {},
 
   computed: {
     tables() {
               const search = this.searchContent;
-                if(this.inputContent==''){
-                 this.searchContent=''
-                 this.currentPage=1
-                return [this. tableData,this.count=this. tableData.length];
-                }
+           	  if(this.inputContent==''){
+           		this.searchContent=''
+           		this.currentPage=1
+           	  return [this. tableData1,this.count=this. tableData1.length];
+           	  }
                  if (search!=='') {
-                   return [this. tableData.filter((dataNews) => {
+                   return [this. tableData1.filter((dataNews) => {
                      return Object.keys(dataNews).some((key) => {
                        return String(dataNews[key]).toLowerCase().indexOf(search) > -1;
                      });
                    }),
-                       this.count = this. tableData.filter((dataNews) => {
+           				this.count = this. tableData1.filter((dataNews) => {
                      return Object.keys(dataNews).some((key) => {
                        return String(dataNews[key]).toLowerCase().indexOf(search) > -1;
                      });
                    }).length];
                  }
-                 return [this. tableData,this.count=this. tableData.length];
-              }
+                 return [this. tableData1,this.count=this. tableData1.length];
+           	}
   },
   methods: {
-    addUser(){
-      this.dialogFormVisible=true
-    },
+    // addUser(){
+    //   this.dialogFormVisible=true 
+    // },
     addOk(){
       this.dialogFormVisible=false
     },
@@ -270,19 +182,36 @@
       this.dialogFormVisible=false
     },
     handleSizeChange(val){
-        this.pageSize=val;
-      },
-      handleCurrentChange(val){
-        this.currentPage=val;
+		  this.pageSize=val;
+		},
+		handleCurrentChange(val){
+		  this.currentPage=val;
     },
+    //搜索
     searchput(){
       this.searchContent=this.inputContent
-      console.log(this.searchContent)
     },
+    // 重置搜索框内容
     reStart(){
-     this.inputContent=''
+      this.inputContent=''
+    },
+    //获取选中的行数据
+    delate(row){
+      console.log(row.title);
+      this.cancelParm.title=row.title
+      console.log(this.cancelParm);
+      let pk=this.cancelParm;
+      console.log(pk);
+      mycancel()
+      async function mycancel() {
+  // 发送请求 接受请求回来的数据 并且重命名为 res
+  const { data: res } = await cancelArticle(pk)
+  console.log(res)
+  console.log(111)
+  location.reload()
+}
+     
     }
-
   }
 }
 const multipleTableRef = ref<InstanceType<typeof ElTable>>()
@@ -296,8 +225,6 @@ const toggleSelection = (rows?: User[]) => {
     multipleTableRef.value!.clearSelection()
   }
 }
-
-
 
 </script>
 <style scoped>
@@ -326,6 +253,9 @@ const toggleSelection = (rows?: User[]) => {
   }
   #title div{
     margin-right: 30px;
+  }
+  #delateBtn{
+    margin-left:10px;
   }
   #searchBox{
     height: 100px;
