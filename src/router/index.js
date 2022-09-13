@@ -47,7 +47,7 @@ const manageroutes = [
                 path: '/visualization',
                 name: 'visualization',
                 redirect: '/ParkCockpit',
-                component: () => import('../views/visualization/visualization.vue'),
+                component: () => import('../views/home/visualization.vue'),
                 children: [
                     ...visualizationRouter
                 ]
