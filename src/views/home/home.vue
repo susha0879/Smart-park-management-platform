@@ -167,7 +167,7 @@ export default ({
 .stateBox{
   display: flex;
   min-width: 1024px;
-  max-width: 1920px;
+  /* max-width: 1920px; */
   padding: 10px;
   background-color: #2b3b5c;
 }
@@ -230,7 +230,7 @@ export default ({
 }
 .myImage{
   width: 100%;
-  height: 410px;
+  /* height: 410px; */
   margin-top: -10px;
 }
 img {

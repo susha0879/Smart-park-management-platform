@@ -239,7 +239,7 @@ const dongtaitableData = reactive([
   margin-top: 10px;
 }
 .router-view-box {
-  padding: 20px;
+  padding: 0px;
 }
 .header-box {
   display: flex;
@@ -252,6 +252,10 @@ const dongtaitableData = reactive([
 .hh {
   display: flex;
   justify-content: space-between;
+}
+.hh img{
+  width: 80%;
+  height: 80%;
 }
 .hhh {
   display: flex;
@@ -371,6 +375,7 @@ const dongtaitableData = reactive([
 }
 .top10box {
   margin-left: 10px;
-  width: 35%;
+  width: 36%;
+  /* height: 50%; */
 }
 </style>

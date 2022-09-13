@@ -7,17 +7,24 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import propertyRouter from './property'
 //引入数据可视页面相关路由
 import visualizationRouter from './visualization'
+//引入配置中心页面相关路由
+import configurationRouter from './configuration'
 
 const manageroutes = [
+       {
+              path: '/',
+              redirect: '/login'
+          },
     {
         path: '/login',
         name: 'Login',
         component: () => import('../views/login.vue'),
     },
     {
-        path: '/',
-        name: '/',
+        path: '/index',
+        name: '/index',
         component: () => import('../layout/index.vue'),
+        redirect: '/home',
         children: [
             {
                 path: '/home',
@@ -27,11 +34,16 @@ const manageroutes = [
             {
                 path: '/configuration',
                 name: 'configuration',
+                redirect: '/configurationall',
                 component: () => import('../views/configuration.vue'),
+                children: [
+                  ...configurationRouter
+                ]
             },
             {
                 path: '/operation',
                 name: 'operation',
+                redirect: '/over',
                 component: () => import('../views/operation/operation.vue'),
                 children:[
                   //文章管理

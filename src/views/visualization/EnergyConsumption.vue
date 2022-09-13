@@ -460,7 +460,7 @@
       background-color: #19274c;
       display: flex;
       min-width: 1024px;
-      max-width: 1920px;
+      /* max-width: 1920px; */
     }
     .column{
       flex: 3.25;
