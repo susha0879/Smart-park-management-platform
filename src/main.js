@@ -19,7 +19,11 @@ Object.keys(ElementPlusIconsVue).forEach(key => {
 app.config.globalProperties.$echarts = echarts 
 
 app.use(router)
-app.use(ElementPlus)
+app.use(store)
+app.use(ElementPlus, {
+  locale: zhCn,
+})
 app.mount('#app')
+app.use(store)
+app.config.globalProperties.day = dayjs//全局挂载
 
-app.config.globalProperties.day=dayjs//全局挂载
