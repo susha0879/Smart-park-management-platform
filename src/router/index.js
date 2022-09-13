@@ -73,7 +73,11 @@ const manageroutes = [
             {
                path: '/tenementBill',
                component: () => import('../views/operation/bill/tenementBill.vue')
-            }
+            },
+            {
+               path: '/articleAdd',
+               component: () => import('../views/operation/content/articleAdd.vue')
+             },
          ]
       }, 
       {

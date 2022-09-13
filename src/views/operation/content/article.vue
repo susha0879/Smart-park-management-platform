@@ -8,23 +8,12 @@
         &nbsp; &nbsp; {{titleName}}
       </h1>
       <div>
-        <el-button type="primary" @click="addUser">新增</el-button>
-        <el-button type="warning">批量删除</el-button>
+        <router-link to='/articleAdd'>
+          <el-button type="primary">新增</el-button>
+        </router-link>
+        <el-button type="warning" id="delateBtn">批量删除</el-button>
       </div>
     </div>
-    <!-- 弹窗 -->
-    <el-dialog v-model="dialogFormVisible" 
-               title="文章新增" width="80%" 
-               top="8vh" class="popUp"
-               center 
-    >
-      
-      
-      <template #footer>
-        <el-button type="primary" @click="addOk">确定</el-button>
-        <el-button @click="addCancel">取消</el-button>
-       </template>
-    </el-dialog>
     <!-- 搜索栏 -->
     <div id="searchBox">
       <el-row :gutter="20">
@@ -65,21 +54,22 @@
         border="true"
       >
         <el-table-column type="selection" width="55" />
-        <el-table-column label="文章标题" width="260">
+        <el-table-column label="文章标题" width="280">
           <template #default="scope">{{ scope.row.title }}</template>
         </el-table-column>
-        <el-table-column property="way" label="发布渠道" width="100" />
-        <el-table-column property="channel" label="发布频道" width="120" />
-        <el-table-column property="type" label="文章类型"  width="120"/>
-        <el-table-column property="key" label="关键词"  width="120"/>
-        <el-table-column property="people" label="发布人"  width="120"/>
-        <el-table-column property="time" label="发送时间"  width="140"/>
+        <el-table-column property="releaseWay" label="发布渠道" width="100" />
+        <el-table-column property="releaseChannel" label="发布频道" width="120" />
+        <el-table-column property="type" label="文章类型"  width="110"/>
+        <el-table-column property="keyword" label="关键词"  width="110"/>
+        <el-table-column property="releasePerson" label="发布人"  width="120"/>
+        <el-table-column property="releaseTime" label="发送时间"  width="140"/>
         <el-table-column property="operate" label="操作" >
-          <el-button text bg>详情</el-button>
-          <el-button text bg>删除</el-button>
+          <template #default="scope">
+            <el-button text bg >详情</el-button>
+            <el-button text bg @click="delate( scope.row)">删除</el-button>
+          </template>
         </el-table-column>
       </el-table>
-
       <!-- 分页 -->
       <div class="pageChange">
           <el-pagination
@@ -99,14 +89,16 @@
 </template>
 
 <script lang="ts" >
-  import { ref } from 'vue'
+  import { ref,onMounted, reactive } from 'vue'
   import { ElTable } from 'element-plus'
+  import { getArticle ,cancelArticle } from "../../../api/operation.js"
+  import { useRouter } from "vue-router";
+  const $router = useRouter();
   interface User {
   date: string
   name: string
   address: string
 }
-
   export default {
   data () {
     return {
@@ -114,103 +106,47 @@
       titleName:"文章管理",
       tableName:"我麻了",
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 6,
       searchContent:'',
       inputContent:'',
-      // totalPage:Math.ceil(this.tableData.length / this.pageSize) || 1,
-      formData:{
-        acTitle:"",
-        acWay:"",
-        acChannel:"",
-        acType:"",
-        acKey:"",
-        acPeople:"",
-        acTime:"",
-        acSynopsis:""
-      },
-      tableData: [
-  {
-    id:'1',
-    title: '对于年龄，你焦虑吗？',
-    way: '小程序',
-    channel: '今日热点',
-    type:'图文',
-    key:'年龄',
-    people:'管理员',
-    time:'2020-11-2',
-    operate:'详情'
-  },
-  {
-    id:'2',
-    title: '针对新引进应届大学生推出租房补贴',
-    way: '小程序',
-    channel: '今日热点',
-    type:'图文',
-    key:'年龄',
-    people:'管理员',
-    time:'2020-11-2',
-    operate:'详情'
-  },
-  {
-    id:'3',
-    title: '中小微、个体户，这些扶持政策必看！',
-    way: '小程序',
-    channel: '今日热点',
-    type:'图文',
-    key:'年龄',
-    people:'管理员',
-    time:'2020-11-2',
-    operate:'详情'
-  },
-  {
-    id:'4',
-    title: '冬奥餐桌上老外喜欢这道最日常的菜',
-    way: '小程序',
-    channel: '今日热点',
-    type:'图文',
-    key:'年龄',
-    people:'管理员',
-    time:'2020-11-2',
-    operate:'详情'
-  },
-  {
-    id:'5',
-    title: '冬奥会临近，疫情防控有哪些注意事项',
-    way: '小程序',
-    channel: '今日热点',
-    type:'视频',
-    key:'年龄',
-    people:'管理员',
-    time:'2020-11-2',
-    operate:'详情'
-  },
-  {
-    id:'6',
-    title: '浙江新增境外输入确诊病例2例',
-    way: '小程序',
-    channel: '今日热点',
-    type:'图文',
-    key:'年龄',
-    people:'管理员',
-    time:'2020-11-2',
-    operate:'详情'
-  },
-  {
-    id:'7',
-    title: '印度靠捡美国垃圾造出新科技',
-    way: '小程序',
-    channel: '今日热点',
-    type:'视频',
-    key:'年龄',
-    people:'管理员',
-    time:'2020-11-2',
-    operate:'详情'
-  },
-
-]
+      selMsg:[],
+      cancelParm:{
+        title:''
+      }
     };
   },
+  setup(){
+// 访客列表数据
+const tableData1 = reactive([])
+// 访客列表总数
+let count1 = 0
 
+// 获取访客需要的参数
+let getVisitorParms = {
+  pageNum: '1',   // 获取第几页的数据
+  pageSize: '20'   // 获取几条数据
+}
+
+onMounted(() => {
+  // 调用获取访客的函数
+  getArticleData()
+})
+// 获取访客的异步函数
+async function getArticleData() {
+  // 发送请求 接受请求回来的数据 并且重命名为 res
+  const { data: res } = await getArticle(getVisitorParms)
+  // 返回的数据展开 push到数组中
+  tableData1.push(...res.data)
+  // 总数重新赋值
+  count1 = res.count
+  console.log(tableData1);
+  console.log(res.data)
+  
+}
+  return{
+    tableData1
+  }
+  },
   components: {},
 
   computed: {
@@ -219,27 +155,27 @@
            	  if(this.inputContent==''){
            		this.searchContent=''
            		this.currentPage=1
-           	  return [this. tableData,this.count=this. tableData.length];
+           	  return [this. tableData1,this.count=this. tableData1.length];
            	  }
                  if (search!=='') {
-                   return [this. tableData.filter((dataNews) => {
+                   return [this. tableData1.filter((dataNews) => {
                      return Object.keys(dataNews).some((key) => {
                        return String(dataNews[key]).toLowerCase().indexOf(search) > -1;
                      });
                    }),
-           				this.count = this. tableData.filter((dataNews) => {
+           				this.count = this. tableData1.filter((dataNews) => {
                      return Object.keys(dataNews).some((key) => {
                        return String(dataNews[key]).toLowerCase().indexOf(search) > -1;
                      });
                    }).length];
                  }
-                 return [this. tableData,this.count=this. tableData.length];
+                 return [this. tableData1,this.count=this. tableData1.length];
            	}
   },
   methods: {
-    addUser(){
-      this.dialogFormVisible=true
-    },
+    // addUser(){
+    //   this.dialogFormVisible=true 
+    // },
     addOk(){
       this.dialogFormVisible=false
     },
@@ -252,14 +188,31 @@
 		handleCurrentChange(val){
 		  this.currentPage=val;
     },
+    //搜索
     searchput(){
       this.searchContent=this.inputContent
-      console.log(this.searchContent)
     },
+    // 重置搜索框内容
     reStart(){
       this.inputContent=''
-     }
-
+    },
+    //获取选中的行数据
+    delate(row){
+      console.log(row.title);
+      this.cancelParm.title=row.title
+      console.log(this.cancelParm);
+      let pk=this.cancelParm;
+      console.log(pk);
+      mycancel()
+      async function mycancel() {
+  // 发送请求 接受请求回来的数据 并且重命名为 res
+  const { data: res } = await cancelArticle(pk)
+  console.log(res)
+  console.log(111)
+  location.reload()
+}
+     
+    }
   }
 }
 const multipleTableRef = ref<InstanceType<typeof ElTable>>()
@@ -273,8 +226,6 @@ const toggleSelection = (rows?: User[]) => {
     multipleTableRef.value!.clearSelection()
   }
 }
-
-
 
 </script>
 <style scoped>
@@ -303,6 +254,9 @@ const toggleSelection = (rows?: User[]) => {
   }
   #title div{
     margin-right: 30px;
+  }
+  #delateBtn{
+    margin-left:10px;
   }
   #searchBox{
     height: 100px;
