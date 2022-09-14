@@ -147,7 +147,6 @@ const handleClose = (key: string, keyPath: string[]) => {
 .el-main {
   margin: 0;
   padding: 0;
-
-  background-color: #eee;
+ background-color: #eee;
 }
 </style>

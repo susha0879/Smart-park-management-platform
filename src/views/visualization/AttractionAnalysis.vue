@@ -7,7 +7,6 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-  <div>
       <!-- 大容器 -->
       <section class="container">
       <!-- 上容器 -->
@@ -144,7 +143,6 @@
           </div>
       </section>
       </section>
-  </div>
 </template>
 <script >
     import * as echarts from 'echarts'
@@ -593,7 +591,7 @@ let d = {
 <style scoped>
 .container{
   width: 100%;
-  height: 800px;
+  height: 100%;
   background-image: url(src/assets/22.jpg);
   background-size: cover;
   background-repeat: no-repeat;

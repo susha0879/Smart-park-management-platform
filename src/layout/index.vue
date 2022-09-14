@@ -8,8 +8,13 @@
       <div class="header-bottom">
         <div class="select">
           项目地址
-          <el-select class="m-2" placeholder="Select" size="small">
-            <el-option />
+          <el-select v-model="value" class="m-2" placeholder="成都高华设计科创园" size="small">
+            <el-option 
+            v-for="item in options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+            />
           </el-select>
         </div>
         <div class="timer">
@@ -34,6 +39,27 @@ onMounted(() => {
     nowTime.value = formatTime(new Date());
   });
 });
+
+const value = ref('')
+
+const options = [
+  {
+    value: '成都高华设计科创园',
+    label: '成都高华设计科创园',
+  },
+  {
+    value: '德信AI产业科技园',
+    label: '德信AI产业科技园',
+  },
+  {
+    value: '米菲影视娱乐产业园',
+    label: '米菲影视娱乐产业园',
+  },
+  {
+    value: '讯特产业科技园',
+    label: '讯特产业科技园',
+  },
+]
 </script>
 
 <style scoped>

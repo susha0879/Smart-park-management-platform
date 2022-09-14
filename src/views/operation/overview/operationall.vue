@@ -375,6 +375,8 @@ const dongtaitableData = reactive([
 }
 .top10box {
   margin-left: 10px;
+
   width: 40%;
+
 }
 </style>

@@ -1,5 +1,4 @@
 <template>
-  <div>
     <!-- /* 大容器 */ -->
     <section class="container">
       <!-- 左容器 -->
@@ -36,9 +35,27 @@
         <div class="item">
           <div class="font">园区能耗排行（月度）</div>
           <div class="itemDiv">
-            <div>区域</div>
-            <div>总电量</div>
-            <div>功率</div>
+            <div class="divtext">
+              <div>区域</div>
+              <div class="divtext">华南地区</div>
+              <div class="divtext">西北地区</div>
+              <div class="divtext">东北地区</div>
+              <div class="divtext">东北地区</div>
+            </div>
+            <div class="divtext">
+              <div class="divtext">总电量</div>
+              <div class="divtext">12000kw</div>
+              <div class="divtext">11000kw</div>
+              <div class="divtext">14000kw</div>
+              <div class="divtext">17000kw</div>
+            </div>
+            <div class="divtext">
+              <div class="divtext">总电量</div>
+              <div class="divtext">85%</div>
+              <div class="divtext">95%</div>
+              <div class="divtext">75%</div>
+              <div class="divtext">85%</div>
+            </div>
           </div>
         </div>
 
@@ -64,7 +81,6 @@
         </div>
       </section>
     </section>
-  </div>
 </template>
 <script>
 import * as echarts from "echarts";
@@ -545,11 +561,11 @@ export default {
 .container {
   width: 100%;
   height: 100%;
+  /* margin: 10px auto; */
   padding: auto;
-  background-image: url(src/assets/22.jpg);
-  /* background-size: cover; */
-  background-size:100% 100%; 
-	background-attachment: fixed;
+  background-image: url(src/assets/22.png);
+  /* background-color: #19274c; */
+  background-size:cover;
   background-repeat: no-repeat;
   display: flex;
 }
@@ -655,5 +671,8 @@ export default {
   border: 1px solid rgb(0, 161, 183);
   margin-top: -180px;
   margin-left: 42px;
+}
+.divtext {
+  margin-top: 10px;
 }
 </style>
